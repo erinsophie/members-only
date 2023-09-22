@@ -8,6 +8,7 @@ export default {
       },
       colors: {
         darkBlue: '#0056D3',
+        orange: '#FF6D23',
       },
     },
   },
