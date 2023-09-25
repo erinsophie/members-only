@@ -32,7 +32,6 @@ function Header() {
                   Become a member!
                 </Link>
               )}
-
               <button
                 onClick={() => setDropdownVisible(!isDropdownVisible)}
                 className="flex gap-2 items-center"

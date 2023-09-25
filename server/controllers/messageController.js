@@ -9,3 +9,13 @@ exports.getMessages = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.newMessage = async (req, res) => {
+  try {
+    const message = new Message(req.body);
+    await message.save();
+    res.status(201).json(message);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

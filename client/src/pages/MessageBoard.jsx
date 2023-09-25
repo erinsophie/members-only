@@ -8,8 +8,8 @@ function MessageBoard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newMessage, setNewMessage] = useState('');
-
-  console.log(messages);
+  const [filter, setFilter] = useState('everyone');
+  const [sortOrder, setSortOrder] = useState('oldest');
 
   // fetch messages
   async function getMessages() {
@@ -47,7 +47,7 @@ function MessageBoard() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          text: newMessage,
+          content: newMessage,
           username: currentUser.username,
           timestamp: new Date(),
         }),
@@ -58,6 +58,7 @@ function MessageBoard() {
       }
 
       // re-fetch all messages
+      setNewMessage('');
       getMessages();
     } catch (error) {
       setError(error.message);
@@ -66,18 +67,35 @@ function MessageBoard() {
 
   if (error) return <p>{`Error: ${error}`}</p>;
 
+  // sorted messages
+  const sortedMessages = messages.sort((a, b) => {
+    const dateA = new Date(a.timestamp);
+    const dateB = new Date(b.timestamp);
+    return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+  });
+
+
   return (
-    <div className="flex-1">
+    <div className="flex-1 flex flex-col gap-8">
       <h2 className="text-3xl">Messages</h2>
 
-      <div className="flex flex-col gap-3 mt-8">
+      <select
+        onChange={(e) => setSortOrder(e.target.value)}
+        defaultValue={'oldest'}
+        className="border border-gray-400 w-32"
+      >
+        <option value="oldest">Oldest</option>
+        <option value="newest">Newest</option>
+      </select>
+
+      <div className="flex flex-col gap-3">
         {loading ? (
           <p>Loading...</p>
         ) : (
-          messages.map((message) => (
+          sortedMessages.map((message) => (
             <div
               key={message._id}
-              className="bg-gray-100 flex items-center justify-between"
+              className="bg-gray-100 flex items-center justify-between p-1"
             >
               <div>
                 <p className="text-darkBlue">{message.content}</p>
@@ -96,16 +114,23 @@ function MessageBoard() {
           ))
         )}
 
-        <form onSubmit={handleSubmit} className="flex gap-3 items-center">
-          <input
-            type="text"
-            value={newMessage}
-            placeholder="message"
-            onChange={(e) => setNewMessage(e.target.value)}
-            className="border border-gray-400 rounded-lg w-2/5"
-          ></input>
-          <button type="submit" className='w-20 bg-darkBlue text-white p-1 rounded-lg'>Post</button>
-        </form>
+        {currentUser && (
+          <form onSubmit={handleSubmit} className="flex gap-3">
+            <input
+              type="text"
+              value={newMessage}
+              placeholder="message"
+              onChange={(e) => setNewMessage(e.target.value)}
+              className="border border-gray-400 rounded-lg w-full"
+            ></input>
+            <button
+              type="submit"
+              className="w-20 bg-darkBlue text-white p-1 rounded-lg"
+            >
+              Post
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );
