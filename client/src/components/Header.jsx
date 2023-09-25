@@ -15,7 +15,7 @@ function Header() {
       </h1>
 
       {!currentUser && (
-        <div>
+        <div className="flex gap-5">
           <Link to="/login">Log in</Link>
           <Link to="/sign-up">Sign up</Link>
         </div>

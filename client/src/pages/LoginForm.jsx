@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUserContext } from '../components/UserContext';
 
 function LoginForm() {
   const navigate = useNavigate();
+  const { getCurrentUser } = useUserContext();
   const [feedbackMessage, setFeedbackMessage] = useState([]);
   const [loginData, setLoginData] = useState({
     username: '',
@@ -17,8 +19,6 @@ function LoginForm() {
     }));
   }
 
-  console.log(feedbackMessage)
-
   async function handleSubmit(e) {
     e.preventDefault();
     try {
@@ -31,21 +31,19 @@ function LoginForm() {
         body: JSON.stringify(loginData),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        if (data.errors) {
-          // Process error messages from express validator here
-          const errorMessages = data.errors.map((err) => err.msg);
+        const errorResponse = await response.json();
+        if (errorResponse.errors) {
+          const errorMessages = errorResponse.errors.map((err) => err.msg);
           setFeedbackMessage(errorMessages);
-          // handle incorrect details 
+          // handle incorrect details
         } else if (response.status == 401) {
-          setFeedbackMessage([data.message])
+          setFeedbackMessage([errorResponse.message]);
         }
         throw new Error('Network response was not ok ' + response.statusText);
       }
-
-      console.log(data);
+      // fetch current user details
+      await getCurrentUser();
       navigate('/');
     } catch (error) {
       console.error(error.message);

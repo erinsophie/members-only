@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
+import { useUserContext } from '../components/UserContext';
 
 function MessageBoard() {
+  const { currentUser } = useUserContext();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -45,13 +47,19 @@ function MessageBoard() {
           <p>Loading...</p>
         ) : (
           messages.map((message) => (
-            <div key={message._id} className="bg-gray-100 flex justify-between">
+            <div key={message._id} className="bg-gray-100 flex items-center justify-between">
               <div>
                 <p className="text-darkBlue">{message.content}</p>
-                <p className="text-gray-400">{message.username}</p>
+                <p className="text-gray-400">
+                  {currentUser && currentUser.isMember
+                    ? message.username
+                    : 'Username hidden'}
+                </p>
               </div>
               <p className="text-gray-400">
-                {format(parseISO(message.timestamp), 'dd/MM/yyyy HH:mm')}
+                {currentUser && currentUser.isMember
+                  ? format(parseISO(message.timestamp), 'dd/MM/yyyy HH:mm')
+                  : 'Timestamp hidden'}
               </p>
             </div>
           ))

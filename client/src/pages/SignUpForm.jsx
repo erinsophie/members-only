@@ -46,12 +46,11 @@ function SignUpForm() {
         }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        if (data.errors) {
-          // Process error messages from express validator here
-          const errorMessages = data.errors.map((err) => err.msg);
+        // wait for array of errors from validator
+        const errorResponse = await response.json();
+        if (errorResponse.errors) {
+          const errorMessages = errorResponse.errors.map((err) => err.msg);
           setFeedbackMessage(errorMessages);
         }
         throw new Error('Network response was not ok ' + response.statusText);
