@@ -7,6 +7,7 @@ function MessageBoard() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [newMessage, setNewMessage] = useState('');
 
   console.log(messages);
 
@@ -36,6 +37,33 @@ function MessageBoard() {
     getMessages();
   }, []);
 
+  // add new message
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:8080/api/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          text: newMessage,
+          username: currentUser.username,
+          timestamp: new Date(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+
+      // re-fetch all messages
+      getMessages();
+    } catch (error) {
+      setError(error.message);
+    }
+  }
+
   if (error) return <p>{`Error: ${error}`}</p>;
 
   return (
@@ -47,7 +75,10 @@ function MessageBoard() {
           <p>Loading...</p>
         ) : (
           messages.map((message) => (
-            <div key={message._id} className="bg-gray-100 flex items-center justify-between">
+            <div
+              key={message._id}
+              className="bg-gray-100 flex items-center justify-between"
+            >
               <div>
                 <p className="text-darkBlue">{message.content}</p>
                 <p className="text-gray-400">
@@ -64,6 +95,17 @@ function MessageBoard() {
             </div>
           ))
         )}
+
+        <form onSubmit={handleSubmit} className="flex gap-3 items-center">
+          <input
+            type="text"
+            value={newMessage}
+            placeholder="message"
+            onChange={(e) => setNewMessage(e.target.value)}
+            className="border border-gray-400 rounded-lg w-2/5"
+          ></input>
+          <button type="submit" className='w-20 bg-darkBlue text-white p-1 rounded-lg'>Post</button>
+        </form>
       </div>
     </div>
   );

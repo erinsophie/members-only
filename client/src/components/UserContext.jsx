@@ -8,6 +8,7 @@ function useUserContext() {
 
 function UserProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // fetch current user info
   async function getCurrentUser() {
@@ -25,6 +26,8 @@ function UserProvider({ children }) {
     } catch (error) {
       console.error(error.message);
       setCurrentUser(null);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -37,6 +40,7 @@ function UserProvider({ children }) {
     currentUser,
     setCurrentUser,
     getCurrentUser,
+    loading,
   };
 
   return (

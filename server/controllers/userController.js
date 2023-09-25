@@ -1,3 +1,4 @@
+require("dotenv").config();
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
@@ -75,4 +76,20 @@ exports.logout = (req, res) => {
     }
     res.status(200).json({ message: "Logged out successfully" });
   });
+};
+
+// change status to member
+exports.becomeMember = async (req, res) => {
+  const secretCode = process.env.SECRET_CODE;
+  console.log(req.body)
+
+  try {
+    if (req.body.userInput !== secretCode) {
+      return res.status(403).json({ message: "Invalid secret code" });
+    }
+    const user = await User.findByIdAndUpdate(req.user._id, { isMember: true });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };

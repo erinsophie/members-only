@@ -46,6 +46,8 @@ router.post(
   userController.login
 );
 
+router.post("/become-member", userController.becomeMember);
+
 router.get("/info", userController.getUserInfo);
 
 router.post("/logout", userController.logout);

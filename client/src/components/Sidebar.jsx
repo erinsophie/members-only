@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 function Sidebar() {
   const [selected, setSelected] = useState('allMessages');
   const navigate = useNavigate();
-  const { currentUser, setCurrentUser } = useUserContext();
+  const { currentUser, setCurrentUser, loading } = useUserContext();
 
   async function handleLogout() {
     try {
@@ -31,33 +31,40 @@ function Sidebar() {
 
   return (
     <div className="bg-gray-100 h-screen w-48">
-      <ul className="mt-10 text-base">
-        <li
-          onClick={() => setSelected('allMessages')}
-          className={` pl-3 pr-3 p-1 ${
-            selected === 'allMessages'
-              ? 'bg-gray-200 border-l-4 border-orange'
-              : ''
-          }`}
-        >
-          <Link to="/">All messages</Link>
-        </li>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <ul className="mt-10 text-base">
+            <li
+              onClick={() => setSelected('allMessages')}
+              className={` pl-3 pr-3 p-1 ${
+                selected === 'allMessages'
+                  ? 'bg-gray-200 border-l-4 border-orange'
+                  : ''
+              }`}
+            >
+              <Link to="/">All messages</Link>
+            </li>
 
-        {currentUser && (
-          <li
-            onClick={() => setSelected('logout')}
-            className={`pl-3 pr-3 p-1 ${
-              selected === 'logout'
-                ? 'bg-gray-200 border-l-4 border-orange'
-                : ''
-            }`}
-          >
-            <button onClick={handleLogout}>
-              Logout <i className="fa-solid fa-right-from-bracket text-sm"></i>
-            </button>
-          </li>
-        )}
-      </ul>
+            {currentUser && (
+              <li
+                onClick={() => setSelected('logout')}
+                className={`pl-3 pr-3 p-1 ${
+                  selected === 'logout'
+                    ? 'bg-gray-200 border-l-4 border-orange'
+                    : ''
+                }`}
+              >
+                <button onClick={handleLogout}>
+                  Logout{' '}
+                  <i className="fa-solid fa-right-from-bracket text-sm"></i>
+                </button>
+              </li>
+            )}
+          </ul>
+        </>
+      )}
     </div>
   );
 }
