@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
-require("dotenv").config({ path: "./env.development" });
+const envFile =
+  process.env.NODE_ENV === 'production'
+    ? '.env.production'
+    : '.env.development';
+require('dotenv').config({ path: envFile });
 
 const connectionStr = process.env.CONNECTION_STR;
 
@@ -7,7 +11,7 @@ const connectionStr = process.env.CONNECTION_STR;
 const connectDB = async () => {
   try {
     await mongoose.connect(connectionStr, {
-      seNewUrlParser: true,
+      useNewUrlParser: true,
       useUnifiedTopology: true,
     });
     console.log("database connected");

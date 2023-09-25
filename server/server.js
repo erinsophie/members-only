@@ -8,7 +8,7 @@ const bcrypt = require("bcryptjs");
 const connectDB = require("./config/database");
 
 // connect to database
-connectDB;
+connectDB();
 
 // start express server
 const app = express();
@@ -20,13 +20,16 @@ app.use(express.urlencoded({ extended: false }));
 // cors
 app.use(
   cors({
-    origin: "http://localhost:5174",
+    origin: "http://localhost:5173",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
 );
 
-// define route handlers
+// route handlers
+const messageRoutes = require("./routes/messageRoutes");
+
+// use routes
 app.use("/api/messages", messageRoutes);
 
 const PORT = process.env.PORT || 8080;
