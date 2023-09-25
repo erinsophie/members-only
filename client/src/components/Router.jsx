@@ -3,6 +3,7 @@ import App from '../App';
 import MessageBoard from '../pages/MessageBoard';
 import SignUpForm from '../pages/SignUpForm';
 import LoginForm from '../pages/LoginForm';
+import MemberForm from '../pages/MemberForm'
 
 function Router() {
   const router = createBrowserRouter([
@@ -21,6 +22,10 @@ function Router() {
         {
           path: '/login',
           element: <LoginForm />,
+        },
+        {
+          path: '/member-form',
+          element: <MemberForm />,
         },
       ],
     },
