@@ -28,9 +28,11 @@ app.use(
 
 // route handlers
 const messageRoutes = require("./routes/messageRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 // use routes
 app.use("/api/messages", messageRoutes);
+app.use("/api/user", userRoutes);
 
 const PORT = process.env.PORT || 8080;
 
