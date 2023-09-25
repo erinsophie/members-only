@@ -34,7 +34,7 @@ function MessageBoard() {
     getMessages();
   }, []);
 
-  if (error) return `Error: ${error}`;
+  if (error) return <p>{`Error: ${error}`}</p>;
 
   return (
     <div className="flex-1">

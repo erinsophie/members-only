@@ -1,6 +1,9 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
+  const navigate = useNavigate();
+  const [feedbackMessage, setFeedbackMessage] = useState([]);
   const [loginData, setLoginData] = useState({
     username: '',
     password: '',
@@ -14,11 +17,42 @@ function LoginForm() {
     }));
   }
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:8080/api/user/login', {
+        credentials: 'include',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (data.errors) {
+          // Process error messages from express validator here
+          const errorMessages = data.errors.map((err) => err.msg);
+          setFeedbackMessage(errorMessages);
+        }
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+
+      // await the async fetching of the current user
+      await getCurrentUser();
+      navigate('/');
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   return (
     <div className="flex-1">
       <h2 className="text-3xl">Log in</h2>
 
-      <form className="flex flex-col gap-4 mt-10">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-10">
         <label htmlFor="username">Username*</label>
         <input
           id="username"
@@ -38,6 +72,12 @@ function LoginForm() {
           required
           className="border border-gray-400"
         />
+
+        <ul>
+          {feedbackMessage.map((msg, index) => (
+            <li key={index}>{msg}</li>
+          ))}
+        </ul>
 
         <button
           type="submit"

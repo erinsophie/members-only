@@ -26,6 +26,36 @@ exports.signUp = async (req, res) => {
     await user.save();
     res.status(201).json(user);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+exports.login = (req, res, next) => {
+  // check for express-validator errors
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    passport.authenticate("local", (err, user, info) => {
+      if (err) return next(err);
+      if (!user) return res.status(401).json(info);
+  
+      // start session
+      req.logIn(user, (err) => {
+        console.log(user);
+        if (err) {
+          return next(err);
+        }
+
+        return res.status(200).json({ message: "Login successful", user });
+      });
+      
+    })(req, res, next);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };

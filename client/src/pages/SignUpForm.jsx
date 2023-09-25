@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function SignUpForm() {
+  const navigate = useNavigate();
   const [confirmMsg, setConfirmMsg] = useState('');
+  const [feedbackMessage, setFeedbackMessage] = useState([]);
   const [newUser, setNewUser] = useState({
     name: '',
     username: '',
@@ -25,11 +28,46 @@ function SignUpForm() {
     });
   }
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      if (newUser.password !== newUser.confirmPassword) return;
+
+      const response = await fetch('http://localhost:8080/api/user/sign-up', {
+        credentials: 'include',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...newUser,
+          isMember: false,
+          isAdmin: false,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (data.errors) {
+          // Process error messages from express validator here
+          const errorMessages = data.errors.map((err) => err.msg);
+          setFeedbackMessage(errorMessages);
+        }
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+
+      navigate('/login');
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   return (
     <div className="flex-1">
       <h2 className="text-3xl">Sign up</h2>
 
-      <form className="flex flex-col gap-4 mt-10">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-10">
         <label htmlFor="name">Name*</label>
         <input
           id="name"
@@ -88,6 +126,12 @@ function SignUpForm() {
         >
           {confirmMsg}
         </p>
+
+        <ul>
+          {feedbackMessage.map((msg, index) => (
+            <li key={index}>{msg}</li>
+          ))}
+        </ul>
 
         <button
           type="submit"

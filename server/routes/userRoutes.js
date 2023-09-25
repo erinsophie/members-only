@@ -28,3 +28,22 @@ router.post(
   ],
   userController.signUp
 );
+
+// log user into their account
+router.post(
+  "/login",
+  [
+    body("username")
+      .trim()
+      .isLength({ min: 3 })
+      .withMessage("Name must be at least 3 characters long")
+      .escape(),
+    body("password")
+      .isLength({ min: 8 })
+      .withMessage("Password must be at least 8 characters long")
+      .escape(),
+  ],
+  userController.login
+);
+
+module.exports = router;
