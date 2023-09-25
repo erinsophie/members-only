@@ -48,10 +48,21 @@ exports.login = (req, res, next) => {
         if (err) return next(err);
         return res.status(200).json({ message: "Login successful", user });
       });
-      
     })(req, res, next);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
+exports.getUserInfo = (req, res) => {
+  try {
+    // check if user is authenticated
+    if (req.isAuthenticated()) {
+      res.json(req.user);
+    } else {
+      res.status(401).json({ message: "Unauthorized" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

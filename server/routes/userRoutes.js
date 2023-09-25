@@ -46,4 +46,6 @@ router.post(
   userController.login
 );
 
+router.get('/info', userController.getUserInfo)
+
 module.exports = router;

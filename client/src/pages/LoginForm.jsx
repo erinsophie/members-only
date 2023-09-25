@@ -38,7 +38,7 @@ function LoginForm() {
           // Process error messages from express validator here
           const errorMessages = data.errors.map((err) => err.msg);
           setFeedbackMessage(errorMessages);
-          // incorrect details error
+          // handle incorrect details 
         } else if (response.status == 401) {
           setFeedbackMessage([data.message])
         }
