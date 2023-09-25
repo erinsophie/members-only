@@ -30,7 +30,6 @@ exports.signUp = async (req, res) => {
   }
 };
 
-
 exports.login = (req, res, next) => {
   // check for express-validator errors
   const errors = validationResult(req);
@@ -43,14 +42,10 @@ exports.login = (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
       if (err) return next(err);
       if (!user) return res.status(401).json(info);
-  
+
       // start session
       req.logIn(user, (err) => {
-        console.log(user);
-        if (err) {
-          return next(err);
-        }
-
+        if (err) return next(err);
         return res.status(200).json({ message: "Login successful", user });
       });
       
@@ -59,3 +54,4 @@ exports.login = (req, res, next) => {
     res.status(500).json({ message: error.message });
   }
 };
+

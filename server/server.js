@@ -37,6 +37,12 @@ const userRoutes = require("./routes/userRoutes");
 app.use("/api/messages", messageRoutes);
 app.use("/api/user", userRoutes);
 
+// error handling
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send("An error occurred!");
+});
+
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {

@@ -17,6 +17,8 @@ function LoginForm() {
     }));
   }
 
+  console.log(feedbackMessage)
+
   async function handleSubmit(e) {
     e.preventDefault();
     try {
@@ -36,12 +38,14 @@ function LoginForm() {
           // Process error messages from express validator here
           const errorMessages = data.errors.map((err) => err.msg);
           setFeedbackMessage(errorMessages);
+          // incorrect details error
+        } else if (response.status == 401) {
+          setFeedbackMessage([data.message])
         }
         throw new Error('Network response was not ok ' + response.statusText);
       }
 
-      // await the async fetching of the current user
-      await getCurrentUser();
+      console.log(data);
       navigate('/');
     } catch (error) {
       console.error(error.message);
