@@ -39,16 +39,13 @@ function SignUpForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          ...newUser,
-          isMember: false,
-          isAdmin: false,
-        }),
+        body: JSON.stringify(newUser),
       });
 
       if (!response.ok) {
         // wait for array of errors from validator
         const errorResponse = await response.json();
+        console.log(errorResponse)
         if (errorResponse.errors) {
           const errorMessages = errorResponse.errors.map((err) => err.msg);
           setFeedbackMessage(errorMessages);

@@ -3,14 +3,23 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 const passport = require("passport");
 
+// populate req.user with user id and store in cookie
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
+// use stored user id to query database for full user document
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
-    done(null, user);
+    // extract only necessary data
+    const userData = {
+      name: user.name,
+      username: user.username,
+      isMember: user.isMember,
+      isAdmin: user.isAdmin,
+    };
+    done(null, userData);
   } catch (err) {
     done(err);
   }

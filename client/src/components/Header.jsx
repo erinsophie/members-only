@@ -49,9 +49,6 @@ function Header() {
                     <li className="hover:bg-gray-100 p-3 pl-5 pr-5">
                       Admin: {currentUser.isAdmin ? 'Yes' : 'No'}
                     </li>
-                    <li className="hover:bg-gray-100 p-3 pl-5 pr-5">
-                      Edit profile <i className="text-sm fa-solid fa-gear"></i>
-                    </li>
                   </ul>
                 </div>
               )}

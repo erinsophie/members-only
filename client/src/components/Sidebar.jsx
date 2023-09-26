@@ -19,8 +19,7 @@ function Sidebar() {
         throw new Error('Network response was not ok ' + response.statusText);
       }
 
-      const data = await response.json();
-      console.log(data.message);
+      setSelected('messages');
       navigate('/');
       setCurrentUser(null);
       console.log('Current user:', currentUser);
@@ -31,7 +30,11 @@ function Sidebar() {
 
   function handleTabChange(tab) {
     setSelected(tab);
-    tab === 'messages' ? navigate('/') : navigate(`/${tab}`);
+    if (tab === 'messages' || tab === 'logout') {
+      navigate('/');
+    } else {
+      navigate(`/${tab}`);
+    }
   }
 
   return (

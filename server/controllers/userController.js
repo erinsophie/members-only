@@ -55,6 +55,53 @@ exports.login = (req, res, next) => {
   }
 };
 
+// change status to member
+exports.becomeMember = async (req, res) => {
+  const secretCode = process.env.SECRET_CODE;
+
+  try {
+    if (req.body.userInput !== secretCode) {
+      return res.status(403).json({ message: "Invalid secret code" });
+    }
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      { isMember: true },
+      { new: true }
+    );
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// become admin
+exports.becomeAdmin = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.body._id,
+      { isAdmin: true },
+      { new: true }
+    );
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// remove admin
+exports.removeAdmin = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.body._id,
+      { isAdmin: false },
+      { new: true }
+    );
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 exports.getUserInfo = (req, res) => {
   try {
     // check if user is authenticated
@@ -68,58 +115,25 @@ exports.getUserInfo = (req, res) => {
   }
 };
 
-// logout
-exports.logout = (req, res) => {
-  req.logout((err) => {
-    if (err) {
-      return res.status(500).json({ message: "Logout failed", error: err });
-    }
-    res.status(200).json({ message: "Logged out successfully" });
-  });
-};
-
-// change status to member
-exports.becomeMember = async (req, res) => {
-  const secretCode = process.env.SECRET_CODE;
-
-  try {
-    if (req.body.userInput !== secretCode) {
-      return res.status(403).json({ message: "Invalid secret code" });
-    }
-    const user = await User.findByIdAndUpdate(req.user._id, { isMember: true });
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// become admin
-exports.becomeAdmin = async (req, res) => {
-  try {
-    const user = await User.findByIdAndUpdate(req.body._id, {
-      isAdmin: true,
-    });
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// remove admin
-exports.removeAdmin = async (req, res) => {
-  try {
-    const user = await User.findByIdAndUpdate(req.body._id, { isAdmin: false });
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 // get all members
 exports.getMembers = async (req, res) => {
   try {
     const members = await User.find({ isMember: true });
     return res.json(members);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// logout
+exports.logout = (req, res) => {
+  try {
+    req.logout((err) => {
+      if (err) {
+        return res.status(500).json({ message: "Logout failed", error: err });
+      }
+      res.status(204).json({ message: "Logged out successfully" });
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

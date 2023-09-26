@@ -21,10 +21,14 @@ exports.newMessage = async (req, res) => {
 };
 
 exports.deleteMessage = async (req, res) => {
-  console.log(req.query.id);
   try {
-    await Message.findByIdAndRemove(req.query.id);
-    res.status(200).send("Message deleted successfully");
+    const result = await Message.findByIdAndRemove(req.query.id);
+    if (result) {
+      // indicate that the message was successfully deleted
+      res.status(204).send();
+    } else {
+      res.status(404).json({ message: "Message not found" });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
