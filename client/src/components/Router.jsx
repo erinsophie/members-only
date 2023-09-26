@@ -5,6 +5,7 @@ import SignUpForm from '../pages/SignUpForm';
 import LoginForm from '../pages/LoginForm';
 import MemberForm from '../pages/MemberForm';
 import Members from '../pages/Members';
+import Error from '../components/Error'
 
 function Router() {
   const router = createBrowserRouter([
@@ -33,6 +34,7 @@ function Router() {
           element: <Members />,
         },
       ],
+      errorElement: <Error />,
     },
   ]);
 
