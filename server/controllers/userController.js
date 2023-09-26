@@ -25,7 +25,7 @@ exports.signUp = async (req, res) => {
 
     // save to database
     await user.save();
-    res.status(201).json(user);
+    res.status(201).json({message: 'Sign up successful'});
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -68,7 +68,7 @@ exports.becomeMember = async (req, res) => {
       { isMember: true },
       { new: true }
     );
-    res.status(200).json(user);
+    res.status(200).json({ message: "Status updated to member" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -82,7 +82,7 @@ exports.becomeAdmin = async (req, res) => {
       { isAdmin: true },
       { new: true }
     );
-    res.status(200).json(user);
+    res.status(200).json({ message: "Member is now admin" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -96,7 +96,7 @@ exports.removeAdmin = async (req, res) => {
       { isAdmin: false },
       { new: true }
     );
-    res.status(200).json(user);
+    res.status(200).json({ message: "Member is no longer admin" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

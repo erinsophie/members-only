@@ -54,7 +54,9 @@ function Members() {
         throw new Error('Network response was not ok ' + response.statusText);
       }
 
-      // Refetch all members
+      const data = await response.json();
+      console.log(data.message);
+      // re-fetch all members
       await getMembers();
     } catch (error) {
       console.error(error.message);

@@ -45,10 +45,8 @@ function LoginForm() {
       }
 
       const data = await response.json();
-
-      // fetch current user details
-      await getCurrentUser();
       console.log(data.message);
+      await getCurrentUser();
       navigate('/');
     } catch (error) {
       console.error(error.message);

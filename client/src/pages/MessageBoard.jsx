@@ -69,11 +69,11 @@ function MessageBoard() {
 
   // delete message
   async function handleDelete(messageId) {
-    console.log(messageId);
     try {
       const response = await fetch(
         `${API_BASE_URL}/api/messages?id=${messageId}`,
         {
+          credentials: 'include',
           method: 'DELETE',
         },
       );

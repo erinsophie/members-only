@@ -5,6 +5,13 @@ const session = require("express-session");
 const connectDB = require("./config/database");
 const passport = require("./config/passportConfig");
 
+// env file
+const envFile =
+  process.env.NODE_ENV === "production"
+    ? ".env.production"
+    : ".env.development";
+require("dotenv").config({ path: envFile });
+
 // connect to database
 connectDB();
 
@@ -21,9 +28,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // cors
+const currentOrigin = process.env.CORS_ORIGIN;
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: currentOrigin,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })

@@ -44,9 +44,7 @@ function SignUpForm() {
       });
 
       if (!response.ok) {
-        // wait for array of errors from validator
         const errorResponse = await response.json();
-        console.log(errorResponse);
         if (errorResponse.errors) {
           const errorMessages = errorResponse.errors.map((err) => err.msg);
           setFeedbackMessage(errorMessages);
@@ -54,6 +52,8 @@ function SignUpForm() {
         throw new Error('Network response was not ok ' + response.statusText);
       }
 
+      const data = await response.json();
+      console.log(data.message);
       navigate('/login');
     } catch (error) {
       console.error(error.message);

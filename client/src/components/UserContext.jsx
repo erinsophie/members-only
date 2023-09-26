@@ -22,7 +22,7 @@ function UserProvider({ children }) {
         throw new Error('Network response was not ok ' + response.statusText);
       }
 
-      let data = await response.json();
+      const data = await response.json();
       setCurrentUser(data);
     } catch (error) {
       console.error(error.message);

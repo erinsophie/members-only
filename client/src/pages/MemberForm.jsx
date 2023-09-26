@@ -30,6 +30,8 @@ function MemberForm() {
       }
 
       // if code is correct, refetch current user data
+      const data = await response.json();
+      console.log(data.message);
       await getCurrentUser();
       navigate('/');
     } catch (error) {

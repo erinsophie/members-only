@@ -18,6 +18,7 @@ passport.deserializeUser(async (id, done) => {
       username: user.username,
       isMember: user.isMember,
       isAdmin: user.isAdmin,
+      _id: user._id,
     };
     done(null, userData);
   } catch (err) {
