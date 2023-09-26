@@ -12,8 +12,8 @@
 
 ## Technologies
 
-Frontend: React, Tailwind
-Backend: Node, Express, MongoDB
+- Frontend: React, Tailwind
+- Backend: Node, Express, MongoDB
 
 ## Goal
 
