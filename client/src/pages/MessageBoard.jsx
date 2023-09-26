@@ -68,6 +68,7 @@ function MessageBoard() {
 
   // delete message
   async function handleDelete(messageId) {
+    console.log(messageId);
     try {
       const response = await fetch(
         `http://localhost:8080/api/messages?id=${messageId}`,
@@ -137,7 +138,7 @@ function MessageBoard() {
                     : 'Timestamp hidden'}
                 </p>
                 {currentUser && currentUser.isAdmin && (
-                  <button onClick={(message) => handleDelete(message._id)}>
+                  <button onClick={() => handleDelete(message._id)}>
                     <i className="fa-solid fa-trash-can"></i>
                   </button>
                 )}

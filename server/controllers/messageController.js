@@ -21,6 +21,7 @@ exports.newMessage = async (req, res) => {
 };
 
 exports.deleteMessage = async (req, res) => {
+  console.log(req.query.id);
   try {
     await Message.findByIdAndRemove(req.query.id);
     res.status(200).send("Message deleted successfully");
