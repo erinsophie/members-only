@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO, isToday, isThisWeek } from 'date-fns';
 import { useUserContext } from '../components/UserContext';
 
 function MessageBoard() {
@@ -8,8 +8,7 @@ function MessageBoard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newMessage, setNewMessage] = useState('');
-  const [filter, setFilter] = useState('everyone');
-  const [sortOrder, setSortOrder] = useState('oldest');
+  const [filter, setFilter] = useState('allTime');
 
   // fetch messages
   async function getMessages() {
@@ -67,32 +66,34 @@ function MessageBoard() {
 
   if (error) return <p>{`Error: ${error}`}</p>;
 
-  // sorted messages
-  const sortedMessages = messages.sort((a, b) => {
-    const dateA = new Date(a.timestamp);
-    const dateB = new Date(b.timestamp);
-    return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+  const filteredMessages = messages.filter((msg) => {
+    if (filter === 'allTime') return msg
+    if (filter === 'today') return isToday(parseISO(msg.timestamp));
+    if (filter === 'thisWeek') return isThisWeek(parseISO(msg.timestamp));
   });
-
 
   return (
     <div className="flex-1 flex flex-col gap-8">
       <h2 className="text-3xl">Messages</h2>
 
       <select
-        onChange={(e) => setSortOrder(e.target.value)}
-        defaultValue={'oldest'}
+        onChange={(e) => setFilter(e.target.value)}
+        defaultValue={'allTime'}
         className="border border-gray-400 w-32"
       >
-        <option value="oldest">Oldest</option>
-        <option value="newest">Newest</option>
+        {' '}
+        <option value="allTime">All time</option>
+        <option value="thisWeek">This week</option>
+        <option value="today">Today</option>
       </select>
 
       <div className="flex flex-col gap-3">
+        <p>Total: {filteredMessages.length}</p>
+
         {loading ? (
           <p>Loading...</p>
         ) : (
-          sortedMessages.map((message) => (
+          filteredMessages.map((message) => (
             <div
               key={message._id}
               className="bg-gray-100 flex items-center justify-between p-1"
