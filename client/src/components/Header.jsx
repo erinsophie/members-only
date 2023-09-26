@@ -43,8 +43,11 @@ function Header() {
                 <div className="cursor-pointer absolute right-10 top-14 bg-white text-black border border-gray-300">
                   <ul>
                     <li className="hover:bg-gray-100 p-3 pl-5 pr-5">
-                      Membership status:{' '}
+                      Status:{' '}
                       {currentUser.isMember ? 'Member' : 'User'}
+                    </li>
+                    <li className="hover:bg-gray-100 p-3 pl-5 pr-5">
+                      Admin: {currentUser.isAdmin ? 'Yes' : 'No'}
                     </li>
                     <li className="hover:bg-gray-100 p-3 pl-5 pr-5">
                       Edit profile <i className="text-sm fa-solid fa-gear"></i>

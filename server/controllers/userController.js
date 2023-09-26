@@ -81,7 +81,6 @@ exports.logout = (req, res) => {
 // change status to member
 exports.becomeMember = async (req, res) => {
   const secretCode = process.env.SECRET_CODE;
-  console.log(req.body)
 
   try {
     if (req.body.userInput !== secretCode) {
@@ -89,6 +88,38 @@ exports.becomeMember = async (req, res) => {
     }
     const user = await User.findByIdAndUpdate(req.user._id, { isMember: true });
     res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// become admin
+exports.becomeAdmin = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.body._id, {
+      isAdmin: true,
+    });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// remove admin
+exports.removeAdmin = async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.body._id, { isAdmin: false });
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// get all members
+exports.getMembers = async (req, res) => {
+  try {
+    const members = await User.find({ isMember: true });
+    return res.json(members);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

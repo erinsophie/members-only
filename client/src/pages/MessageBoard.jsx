@@ -66,8 +66,31 @@ function MessageBoard() {
 
   if (error) return <p>{`Error: ${error}`}</p>;
 
+  // delete message
+  async function handleDelete(messageId) {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/messages?id=${messageId}`,
+        {
+          method: 'DELETE',
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      // re-fetch messages
+      await getMessages();
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   const filteredMessages = messages.filter((msg) => {
-    if (filter === 'allTime') return msg
+    if (filter === 'allTime') return msg;
     if (filter === 'today') return isToday(parseISO(msg.timestamp));
     if (filter === 'thisWeek') return isThisWeek(parseISO(msg.timestamp));
   });
@@ -106,11 +129,19 @@ function MessageBoard() {
                     : 'Username hidden'}
                 </p>
               </div>
-              <p className="text-gray-400">
-                {currentUser && currentUser.isMember
-                  ? format(parseISO(message.timestamp), 'dd/MM/yyyy HH:mm')
-                  : 'Timestamp hidden'}
-              </p>
+
+              <div className="flex gap-3">
+                <p className="text-gray-400">
+                  {currentUser && currentUser.isMember
+                    ? format(parseISO(message.timestamp), 'dd/MM/yyyy HH:mm')
+                    : 'Timestamp hidden'}
+                </p>
+                {currentUser && currentUser.isAdmin && (
+                  <button onClick={(message) => handleDelete(message._id)}>
+                    <i className="fa-solid fa-trash-can"></i>
+                  </button>
+                )}
+              </div>
             </div>
           ))
         )}

@@ -31,7 +31,7 @@ function MemberForm() {
         throw new Error('Network response was not ok ' + response.statusText);
       }
 
-      // if correct code is input refetch current user data
+      // if code is correct, refetch current user data
       await getCurrentUser();
       navigate('/');
     } catch (error) {

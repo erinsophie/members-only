@@ -3,7 +3,8 @@ import App from '../App';
 import MessageBoard from '../pages/MessageBoard';
 import SignUpForm from '../pages/SignUpForm';
 import LoginForm from '../pages/LoginForm';
-import MemberForm from '../pages/MemberForm'
+import MemberForm from '../pages/MemberForm';
+import Members from '../pages/Members';
 
 function Router() {
   const router = createBrowserRouter([
@@ -26,6 +27,10 @@ function Router() {
         {
           path: '/member-form',
           element: <MemberForm />,
+        },
+        {
+          path: '/members',
+          element: <Members />,
         },
       ],
     },

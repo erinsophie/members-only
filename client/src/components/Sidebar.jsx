@@ -4,7 +4,7 @@ import { useUserContext } from './UserContext';
 import { useNavigate } from 'react-router-dom';
 
 function Sidebar() {
-  const [selected, setSelected] = useState('allMessages');
+  const [selected, setSelected] = useState('');
   const navigate = useNavigate();
   const { currentUser, setCurrentUser, loading } = useUserContext();
 
@@ -29,6 +29,11 @@ function Sidebar() {
     }
   }
 
+  function handleTabChange(tab) {
+    setSelected(tab);
+    tab === 'messages' ? navigate('/') : navigate(`/${tab}`);
+  }
+
   return (
     <div className="bg-gray-100 h-screen w-48">
       {loading ? (
@@ -37,9 +42,9 @@ function Sidebar() {
         <>
           <ul className="mt-10 text-base">
             <li
-              onClick={() => setSelected('allMessages')}
-              className={` pl-3 pr-3 p-1 ${
-                selected === 'allMessages'
+              onClick={() => handleTabChange('messages')}
+              className={`pl-3 pr-3 p-1 ${
+                selected === 'messages'
                   ? 'bg-gray-200 border-l-4 border-orange'
                   : ''
               }`}
@@ -48,19 +53,32 @@ function Sidebar() {
             </li>
 
             {currentUser && (
-              <li
-                onClick={() => setSelected('logout')}
-                className={`pl-3 pr-3 p-1 ${
-                  selected === 'logout'
-                    ? 'bg-gray-200 border-l-4 border-orange'
-                    : ''
-                }`}
-              >
-                <button onClick={handleLogout}>
-                  Logout{' '}
-                  <i className="fa-solid fa-right-from-bracket text-sm"></i>
-                </button>
-              </li>
+              <>
+                <li
+                  onClick={() => handleTabChange('members')}
+                  className={`pl-3 pr-3 p-1 ${
+                    selected === 'members'
+                      ? 'bg-gray-200 border-l-4 border-orange'
+                      : ''
+                  }`}
+                >
+                  <Link to="/members">Members</Link>
+                </li>
+
+                <li
+                  onClick={() => handleTabChange('logout')}
+                  className={`pl-3 pr-3 p-1 ${
+                    selected === 'logout'
+                      ? 'bg-gray-200 border-l-4 border-orange'
+                      : ''
+                  }`}
+                >
+                  <button onClick={handleLogout}>
+                    Logout{' '}
+                    <i className="fa-solid fa-right-from-bracket text-sm"></i>
+                  </button>
+                </li>
+              </>
             )}
           </ul>
         </>

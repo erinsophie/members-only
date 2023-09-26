@@ -19,3 +19,12 @@ exports.newMessage = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.deleteMessage = async (req, res) => {
+  try {
+    await Message.findByIdAndRemove(req.query.id);
+    res.status(200).send("Message deleted successfully");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
