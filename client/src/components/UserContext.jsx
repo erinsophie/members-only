@@ -9,11 +9,12 @@ function useUserContext() {
 function UserProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   // fetch current user info
   async function getCurrentUser() {
     try {
-      let response = await fetch('http://localhost:8080/api/user/info', {
+      let response = await fetch(`${API_BASE_URL}/api/user/info`, {
         credentials: 'include',
       });
 

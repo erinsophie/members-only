@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../components/UserContext';
 
 function LoginForm() {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const { getCurrentUser } = useUserContext();
   const [feedbackMessage, setFeedbackMessage] = useState([]);
@@ -22,7 +23,7 @@ function LoginForm() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8080/api/user/login', {
+      const response = await fetch(`${API_BASE_URL}/api/user/login`, {
         credentials: 'include',
         method: 'POST',
         headers: {
@@ -42,8 +43,12 @@ function LoginForm() {
         }
         throw new Error('Network response was not ok ' + response.statusText);
       }
+
+      const data = await response.json();
+
       // fetch current user details
       await getCurrentUser();
+      console.log(data.message);
       navigate('/');
     } catch (error) {
       console.error(error.message);

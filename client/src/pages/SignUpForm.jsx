@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function SignUpForm() {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
   const [confirmMsg, setConfirmMsg] = useState('');
   const [feedbackMessage, setFeedbackMessage] = useState([]);
@@ -33,7 +34,7 @@ function SignUpForm() {
     try {
       if (newUser.password !== newUser.confirmPassword) return;
 
-      const response = await fetch('http://localhost:8080/api/user/sign-up', {
+      const response = await fetch(`${API_BASE_URL}/api/user/sign-up`, {
         credentials: 'include',
         method: 'POST',
         headers: {
@@ -45,7 +46,7 @@ function SignUpForm() {
       if (!response.ok) {
         // wait for array of errors from validator
         const errorResponse = await response.json();
-        console.log(errorResponse)
+        console.log(errorResponse);
         if (errorResponse.errors) {
           const errorMessages = errorResponse.errors.map((err) => err.msg);
           setFeedbackMessage(errorMessages);

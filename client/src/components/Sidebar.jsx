@@ -7,10 +7,11 @@ function Sidebar() {
   const [selected, setSelected] = useState('');
   const navigate = useNavigate();
   const { currentUser, setCurrentUser, loading } = useUserContext();
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   async function handleLogout() {
     try {
-      const response = await fetch('http://localhost:8080/api/user/logout', {
+      const response = await fetch(`${API_BASE_URL}/api/user/logout`, {
         credentials: 'include',
         method: 'POST',
       });
@@ -22,7 +23,6 @@ function Sidebar() {
       setSelected('messages');
       navigate('/');
       setCurrentUser(null);
-      console.log('Current user:', currentUser);
     } catch (error) {
       console.error(`Logout failed: ${error.message}`);
     }

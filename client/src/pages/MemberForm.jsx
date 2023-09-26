@@ -7,21 +7,19 @@ function MemberForm() {
   const { getCurrentUser } = useUserContext();
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [input, setInput] = useState('');
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const response = await fetch(
-        'http://localhost:8080/api/user/become-member',
-        {
-          credentials: 'include',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ userInput: input }),
+      const response = await fetch(`${API_BASE_URL}/api/user/become-member`, {
+        credentials: 'include',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify({ userInput: input }),
+      });
 
       if (!response.ok) {
         if (response.status === 403) {

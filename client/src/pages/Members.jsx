@@ -6,10 +6,11 @@ function Members() {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   async function getMembers() {
     try {
-      let response = await fetch('http://localhost:8080/api/user/members', {
+      let response = await fetch(`${API_BASE_URL}/api/user/members`, {
         credentials: 'include',
       });
 
@@ -18,7 +19,6 @@ function Members() {
       }
 
       let data = await response.json();
-
       setMembers(data);
       setError(null);
     } catch (error) {
@@ -39,9 +39,7 @@ function Members() {
     if (currentUser._id === member._id) return;
     try {
       const response = await fetch(
-        `http://localhost:8080/api/user/${
-          isAdmin ? 'become-admin' : 'remove-admin'
-        }`,
+        `${API_BASE_URL}/api/user/${isAdmin ? 'become-admin' : 'remove-admin'}`,
         {
           credentials: 'include',
           method: 'POST',
@@ -69,7 +67,8 @@ function Members() {
       <div>
         <p>Admins are members who can delete messages.</p>
         <p>
-          To become an admin you must ask an existing admin for these privileges.
+          To become an admin you must ask an existing admin for these
+          privileges.
         </p>
       </div>
       {loading ? (
@@ -87,7 +86,7 @@ function Members() {
                 type="checkbox"
                 checked={member.isAdmin}
                 onChange={(e) => handleAdminToggle(member, e.target.checked)}
-                className='w-4'
+                className="w-4"
               />
             )}
           </div>

@@ -9,11 +9,12 @@ function MessageBoard() {
   const [error, setError] = useState(null);
   const [newMessage, setNewMessage] = useState('');
   const [filter, setFilter] = useState('allTime');
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   // fetch messages
   async function getMessages() {
     try {
-      let response = await fetch('http://localhost:8080/api/messages', {
+      let response = await fetch(`${API_BASE_URL}/api/messages`, {
         credentials: 'include',
       });
 
@@ -40,7 +41,7 @@ function MessageBoard() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8080/api/messages', {
+      const response = await fetch(`${API_BASE_URL}/api/messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +59,7 @@ function MessageBoard() {
 
       // re-fetch all messages
       setNewMessage('');
-      getMessages();
+      await getMessages();
     } catch (error) {
       setError(error.message);
     }
@@ -71,7 +72,7 @@ function MessageBoard() {
     console.log(messageId);
     try {
       const response = await fetch(
-        `http://localhost:8080/api/messages?id=${messageId}`,
+        `${API_BASE_URL}/api/messages?id=${messageId}`,
         {
           method: 'DELETE',
         },

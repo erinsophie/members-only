@@ -47,7 +47,7 @@ exports.login = (req, res, next) => {
       // start session
       req.login(user, (err) => {
         if (err) return next(err);
-        return res.status(200).json({ message: "Login successful", user });
+        return res.status(200).json({ message: "Login successful" });
       });
     })(req, res, next);
   } catch (error) {

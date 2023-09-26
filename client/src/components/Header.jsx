@@ -4,7 +4,7 @@ import { useUserContext } from './UserContext';
 
 function Header() {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const { currentUser, loading } = useUserContext();
+  const { currentUser, loading, } = useUserContext();
 
   return (
     <header className="flex justify-between p-5 bg-darkBlue text-white items-center relative">
