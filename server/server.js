@@ -23,14 +23,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // set up passport middleware
+app.set("trust proxy", 1);
 app.use(
   session({
     secret: "members",
     name: "connect.sid",
     cookie: {
-      secure: true, 
-      sameSite: "None", 
-      httpOnly: true, 
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "None",
+      httpOnly: true,
     },
     resave: false,
     saveUninitialized: true,
