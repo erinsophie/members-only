@@ -24,11 +24,9 @@ app.use(express.urlencoded({ extended: false }));
 
 // set up passport middleware
 app.use(
-  // add api as test
-  "/api",
   session({
     secret: "members",
-    cookie: { secure: process.env.NODE_ENV === "production" },
+    cookie: { secure: process.env.NODE_ENV === "production", sameSite: "None" },
     resave: false,
     saveUninitialized: true,
   })
