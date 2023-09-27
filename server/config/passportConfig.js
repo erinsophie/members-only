@@ -5,6 +5,7 @@ const passport = require("passport");
 
 // populate req.user with user id and store in cookie
 passport.serializeUser((user, done) => {
+  console.log('user in serializer:', user)
   done(null, user.id);
 });
 
@@ -20,6 +21,7 @@ passport.deserializeUser(async (id, done) => {
       isAdmin: user.isAdmin,
       _id: user._id,
     };
+    console.log('userData:', userData)
     done(null, userData);
   } catch (err) {
     done(err);

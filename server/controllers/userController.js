@@ -106,7 +106,7 @@ exports.getUserInfo = (req, res) => {
   try {
     // check if user is authenticated
     console.log("request:", req);
-    console.log("request user:", req.user);
+    console.log("user:", req.user);
     if (req.isAuthenticated()) {
       res.json(req.user);
     } else {
