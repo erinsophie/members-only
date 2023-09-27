@@ -41,7 +41,7 @@ function Sidebar() {
   }
 
   return (
-    <div className="bg-gray-100 md:w-48">
+    <div className="bg-gray-100 p-3 md:p-0 md:w-48">
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -54,7 +54,7 @@ function Sidebar() {
           </button>
 
           {isDropdownVisible && (
-            <div>
+            <div className=''>
               <ul className='flex flex-col gap-3'>
                 <li>
                   {' '}
