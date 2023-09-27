@@ -4,6 +4,7 @@ import { useUserContext } from './UserContext';
 import { useNavigate } from 'react-router-dom';
 
 function Sidebar() {
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [selected, setSelected] = useState('');
   const navigate = useNavigate();
   const { currentUser, setCurrentUser, loading } = useUserContext();
@@ -40,12 +41,44 @@ function Sidebar() {
   }
 
   return (
-    <div className="bg-gray-100 h-screen w-48">
+    <div className="bg-gray-100 md:w-48">
       {loading ? (
         <p>Loading...</p>
       ) : (
         <>
-          <ul className="mt-10 text-base">
+          <button
+            onClick={() => setDropdownVisible(!isDropdownVisible)}
+            className="md:hidden"
+          >
+            <i className="fa-solid fa-chevron-down"></i>
+          </button>
+
+          {isDropdownVisible && (
+            <div>
+              <ul className='flex flex-col gap-3'>
+                <li>
+                  {' '}
+                  <Link to="/">All messages</Link>
+                </li>
+                {currentUser && (
+                  <>
+                    <li>
+                      {' '}
+                      <Link to="/members">Members</Link>
+                    </li>
+                    <li>
+                      <button onClick={handleLogout}>
+                        Logout{' '}
+                        <i className="fa-solid fa-right-from-bracket text-sm"></i>
+                      </button>
+                    </li>
+                  </>
+                )}
+              </ul>
+            </div>
+          )}
+
+          <ul className="hidden md:block mt-10 text-base">
             <li
               onClick={() => handleTabChange('messages')}
               className={`pl-3 pr-3 p-1 ${

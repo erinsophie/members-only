@@ -3,9 +3,9 @@ import Sidebar from './Sidebar';
 
 function MainContent() {
   return (
-    <div className="flex">
+    <div className="h-screen flex flex-col md:flex-row">
       <Sidebar />
-      <div className="flex-1 flex flex-col p-16">
+      <div className="p-5 md:flex-1 md:p-16">
         <Outlet />
       </div>
     </div>
