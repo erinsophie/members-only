@@ -23,7 +23,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // set up passport middleware
-app.use(session({ secret: "members", resave: false, saveUninitialized: true }));
+app.use(
+  session({
+    secret: "members",
+    cookie: {
+      sameSite: "none",
+      secure: true,
+    },
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
