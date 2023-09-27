@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   session({
     secret: "members",
-    cookie: { secure: process.env.NODE_ENV === "production", sameSite: "None" },
+    cookie: { secure: true, sameSite: "None" },
     resave: false,
     saveUninitialized: true,
   })
