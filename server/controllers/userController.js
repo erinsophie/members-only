@@ -25,7 +25,7 @@ exports.signUp = async (req, res) => {
 
     // save to database
     await user.save();
-    res.status(201).json({message: 'Sign up successful'});
+    res.status(201).json({ message: "Sign up successful" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -105,6 +105,8 @@ exports.removeAdmin = async (req, res) => {
 exports.getUserInfo = (req, res) => {
   try {
     // check if user is authenticated
+    console.log("request:", req);
+    console.log("request user:", req.user);
     if (req.isAuthenticated()) {
       res.json(req.user);
     } else {

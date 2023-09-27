@@ -28,7 +28,7 @@ app.use(
     secret: "members",
     cookie: {
       sameSite: "none",
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
     },
     resave: false,
     saveUninitialized: true,
