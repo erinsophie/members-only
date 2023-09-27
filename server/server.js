@@ -26,7 +26,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   session({
     secret: "members",
-    cookie: { secure: true, sameSite: "None" },
+    name: "connect.sid",
+    cookie: {
+      secure: true, 
+      sameSite: "None", 
+      httpOnly: true, 
+    },
     resave: false,
     saveUninitialized: true,
   })
