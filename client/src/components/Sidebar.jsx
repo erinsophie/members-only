@@ -26,7 +26,7 @@ function Sidebar() {
       navigate('/');
       setCurrentUser(null);
     } catch (error) {
-      console.error(`Logout failed: ${error.message}`);
+      console.error(error.message);
     }
   }
 

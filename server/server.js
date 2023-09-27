@@ -30,7 +30,7 @@ app.use(
     name: "connect.sid",
     cookie: {
       secure: process.env.NODE_ENV === "production",
-      sameSite: "None",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       httpOnly: true,
     },
     resave: false,

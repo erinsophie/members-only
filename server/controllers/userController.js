@@ -105,8 +105,6 @@ exports.removeAdmin = async (req, res) => {
 exports.getUserInfo = (req, res) => {
   try {
     // check if user is authenticated
-    console.log("request:", req);
-    console.log("user:", req.user);
     if (req.isAuthenticated()) {
       res.json(req.user);
     } else {
@@ -129,14 +127,10 @@ exports.getMembers = async (req, res) => {
 
 // logout
 exports.logout = (req, res) => {
-  try {
-    req.logout((err) => {
-      if (err) {
-        return res.status(500).json({ message: "Logout failed", error: err });
-      }
-      res.status(204).json({ message: "Logged out successfully" });
-    });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+  req.logout((err) => {
+    if (err) {
+      return res.status(500).json({ message: "Logout failed", error: err });
+    }
+    res.status(200).json({ message: "Logged out successfully" });
+  });
 };
