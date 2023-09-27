@@ -13,6 +13,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
+    console.log('user document in deserializer:', user)
     // extract only necessary data
     const userData = {
       name: user.name,
