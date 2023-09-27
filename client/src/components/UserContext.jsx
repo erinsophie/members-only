@@ -14,7 +14,7 @@ function UserProvider({ children }) {
   // fetch current user info
   async function getCurrentUser() {
     try {
-      let response = await fetch(`${API_BASE_URL}/api/user/info`, {
+      const response = await fetch(`${API_BASE_URL}/api/user/info`, {
         credentials: 'include',
       });
 
