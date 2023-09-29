@@ -58,13 +58,14 @@ exports.login = (req, res, next) => {
 // change status to member
 exports.becomeMember = async (req, res) => {
   const secretCode = process.env.SECRET_CODE;
+  const userID = req.params.id;
 
   try {
     if (req.body.userInput !== secretCode) {
       return res.status(403).json({ message: "Invalid secret code" });
     }
     const user = await User.findByIdAndUpdate(
-      req.user._id,
+      userID,
       { isMember: true },
       { new: true }
     );
@@ -74,29 +75,19 @@ exports.becomeMember = async (req, res) => {
   }
 };
 
-// become admin
-exports.becomeAdmin = async (req, res) => {
-  try {
-    const user = await User.findByIdAndUpdate(
-      req.body._id,
-      { isAdmin: true },
-      { new: true }
-    );
-    res.status(200).json({ message: "Member is now admin" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+// either add or remove admin status
+exports.updateRole = async (req, res) => {
+  const memberId = req.params.id;
+  const newRole = req.body.newRole;
 
-// remove admin
-exports.removeAdmin = async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(
-      req.body._id,
-      { isAdmin: false },
+      memberId,
+      { isAdmin: newRole === "admin" },
       { new: true }
     );
-    res.status(200).json({ message: "Member is no longer admin" });
+
+    res.status(200).json({ message: "Member role updated" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

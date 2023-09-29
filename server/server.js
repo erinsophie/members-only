@@ -56,7 +56,7 @@ const userRoutes = require("./routes/userRoutes");
 
 // use routes
 app.use("/api/messages", messageRoutes);
-app.use("/api/user", userRoutes);
+app.use("/api/users", userRoutes);
 
 // error handling
 app.use(function (err, req, res, next) {

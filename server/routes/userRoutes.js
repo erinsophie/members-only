@@ -3,9 +3,13 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 const { body } = require("express-validator");
 
-// create a new user
+// get
+router.get("/members", userController.getMembers);
+router.get("/info", userController.getUserInfo);
+
+// post
 router.post(
-  "/sign-up",
+  "/",
   [
     body("name")
       .trim()
@@ -33,7 +37,6 @@ router.post(
   userController.signUp
 );
 
-// log user into their account
 router.post(
   "/login",
   [
@@ -50,17 +53,10 @@ router.post(
   userController.login
 );
 
-// assign member
-router.post("/become-member", userController.becomeMember);
-// become admin
-router.post("/become-admin", userController.becomeAdmin);
-// become admin
-router.post("/remove-admin", userController.removeAdmin);
-// get user info
-router.get("/info", userController.getUserInfo);
-// get a list of all members
-router.get("/members", userController.getMembers);
-// log user out
 router.post("/logout", userController.logout);
+
+// put
+router.put("/:id/membership", userController.becomeMember);
+router.put("/:id/role", userController.updateRole);
 
 module.exports = router;

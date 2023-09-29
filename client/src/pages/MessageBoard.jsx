@@ -71,7 +71,7 @@ function MessageBoard() {
   async function handleDelete(messageId) {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/messages?id=${messageId}`,
+        `${API_BASE_URL}/api/messages/${messageId}`,
         {
           credentials: 'include',
           method: 'DELETE',

@@ -12,7 +12,7 @@ function Sidebar() {
 
   async function handleLogout() {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/user/logout`, {
+      const response = await fetch(`${API_BASE_URL}/api/users/logout`, {
         credentials: 'include',
         method: 'POST',
       });

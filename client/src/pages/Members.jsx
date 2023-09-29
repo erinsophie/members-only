@@ -10,7 +10,7 @@ function Members() {
 
   async function getMembers() {
     try {
-      let response = await fetch(`${API_BASE_URL}/api/user/members`, {
+      let response = await fetch(`${API_BASE_URL}/api/users/members`, {
         credentials: 'include',
       });
 
@@ -35,18 +35,20 @@ function Members() {
 
   if (error) return <p>{`Error: ${error}`}</p>;
 
-  async function handleAdminToggle(member, isAdmin) {
-    if (currentUser._id === member._id) return;
+  async function handleAdminToggle(member, newRole) {
+    const memberID = member._id;
+    if (currentUser._id === memberID) return;
+
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/user/${isAdmin ? 'become-admin' : 'remove-admin'}`,
+        `${API_BASE_URL}/api/users/${memberID}/role`,
         {
           credentials: 'include',
-          method: 'POST',
+          method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ _id: member._id }),
+          body: JSON.stringify({ newRole }),
         },
       );
 
@@ -87,7 +89,9 @@ function Members() {
               <input
                 type="checkbox"
                 checked={member.isAdmin}
-                onChange={(e) => handleAdminToggle(member, e.target.checked)}
+                onChange={(e) =>
+                  handleAdminToggle(member, e.target.checked ? 'admin' : 'user')
+                }
                 className="w-4"
               />
             )}

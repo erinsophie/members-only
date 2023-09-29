@@ -4,17 +4,19 @@ import { useUserContext } from '../components/UserContext';
 
 function MemberForm() {
   const navigate = useNavigate();
-  const { getCurrentUser } = useUserContext();
+  const { getCurrentUser, currentUser } = useUserContext();
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [input, setInput] = useState('');
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    const userID = currentUser._id;
     try {
-      const response = await fetch(`${API_BASE_URL}/api/user/become-member`, {
+      const response = await fetch(`${API_BASE_URL}/api/users/${userID}/membership`, {
         credentials: 'include',
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },

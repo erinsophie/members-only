@@ -34,7 +34,7 @@ function SignUpForm() {
     try {
       if (newUser.password !== newUser.confirmPassword) return;
 
-      const response = await fetch(`${API_BASE_URL}/api/user/sign-up`, {
+      const response = await fetch(`${API_BASE_URL}/api/users`, {
         credentials: 'include',
         method: 'POST',
         headers: {

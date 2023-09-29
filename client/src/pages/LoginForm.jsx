@@ -23,7 +23,7 @@ function LoginForm() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const response = await fetch(`${API_BASE_URL}/api/user/login`, {
+      const response = await fetch(`${API_BASE_URL}/api/users/login`, {
         credentials: 'include',
         method: 'POST',
         headers: {
