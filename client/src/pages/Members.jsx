@@ -10,7 +10,7 @@ function Members() {
 
   async function getMembers() {
     try {
-      let response = await fetch(`${API_BASE_URL}/api/users/members`, {
+      const response = await fetch(`${API_BASE_URL}/api/users/members`, {
         credentials: 'include',
       });
 
@@ -18,7 +18,7 @@ function Members() {
         throw new Error('Network response was not ok ' + response.statusText);
       }
 
-      let data = await response.json();
+      const data = await response.json();
       setMembers(data);
       setError(null);
     } catch (error) {
