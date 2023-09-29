@@ -48,7 +48,7 @@ function SignUpForm() {
         if (errorResponse.errors) {
           const errorMessages = errorResponse.errors.map((err) => err.msg);
           setFeedbackMessage(errorMessages);
-        }
+        } 
         throw new Error('Network response was not ok ' + response.statusText);
       }
 
