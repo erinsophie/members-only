@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Sidebar() {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState('messages');
   const navigate = useNavigate();
   const { currentUser, setCurrentUser, loading } = useUserContext();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -22,7 +22,6 @@ function Sidebar() {
       }
 
       const data = await response.json();
-      console.log(data.message);
       setSelected('messages');
       navigate('/');
       setCurrentUser(null);
