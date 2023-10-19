@@ -15,11 +15,11 @@ function SignUpForm() {
   });
 
   function handleChange(event) {
-    const { id, value } = event.target;
+    const { name, value } = event.target;
     setNewUser((prevUserData) => {
-      const updatedUserData = { ...prevUserData, [id]: value };
+      const updatedUserData = { ...prevUserData, [name]: value };
 
-      if (id === 'confirmPassword' || id === 'password') {
+      if (name === 'confirmPassword' || name === 'password') {
         updatedUserData.password !== updatedUserData.confirmPassword
           ? setConfirmMsg('Passwords do not match')
           : setConfirmMsg('Passwords match');
@@ -48,7 +48,7 @@ function SignUpForm() {
         if (errorResponse.errors) {
           const errorMessages = errorResponse.errors.map((err) => err.msg);
           setFeedbackMessage(errorMessages);
-        } 
+        }
         throw new Error('Network response was not ok ' + response.statusText);
       }
 
@@ -68,6 +68,7 @@ function SignUpForm() {
         <label htmlFor="name">Name*</label>
         <input
           id="name"
+          name="name"
           type="text"
           value={newUser.name}
           onChange={handleChange}
@@ -78,6 +79,7 @@ function SignUpForm() {
         <label htmlFor="username">Username*</label>
         <input
           id="username"
+          name="username"
           type="text"
           value={newUser.username}
           onChange={handleChange}
@@ -88,6 +90,7 @@ function SignUpForm() {
         <label htmlFor="email">Email*</label>
         <input
           id="email"
+          name="email"
           type="email"
           value={newUser.email}
           onChange={handleChange}
@@ -98,6 +101,7 @@ function SignUpForm() {
         <label htmlFor="password">Password*</label>
         <input
           id="password"
+          name="password"
           type="password"
           value={newUser.password}
           onChange={handleChange}
@@ -108,6 +112,7 @@ function SignUpForm() {
         <label htmlFor="confirmPassword">Confirm password*</label>
         <input
           id="confirmPassword"
+          name="confirmPassword"
           type="password"
           value={newUser.confirmPassword}
           onChange={handleChange}

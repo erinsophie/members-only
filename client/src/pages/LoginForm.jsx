@@ -13,10 +13,10 @@ function LoginForm() {
   });
 
   function handleChange(event) {
-    const { id, value } = event.target;
+    const { name, value } = event.target;
     setLoginData((prevLoginData) => ({
       ...prevLoginData,
-      [id]: value,
+      [name]: value,
     }));
   }
 
@@ -61,6 +61,7 @@ function LoginForm() {
         <label htmlFor="username">Username*</label>
         <input
           id="username"
+          name="username"
           type="text"
           value={loginData.username}
           onChange={handleChange}
@@ -71,6 +72,7 @@ function LoginForm() {
         <label htmlFor="password">Password*</label>
         <input
           id="password"
+          name="password"
           type="password"
           value={loginData.password}
           onChange={handleChange}

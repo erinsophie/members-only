@@ -14,14 +14,17 @@ function MemberForm() {
 
     const userID = currentUser._id;
     try {
-      const response = await fetch(`${API_BASE_URL}/api/users/${userID}/membership`, {
-        credentials: 'include',
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${API_BASE_URL}/api/users/${userID}/membership`,
+        {
+          credentials: 'include',
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userInput: input }),
         },
-        body: JSON.stringify({ userInput: input }),
-      });
+      );
 
       if (!response.ok) {
         if (response.status === 403) {
@@ -49,6 +52,7 @@ function MemberForm() {
         <label htmlFor="secretCode">Enter the top secret code:</label>
         <input
           id="secretCode"
+          name="secretCode"
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
