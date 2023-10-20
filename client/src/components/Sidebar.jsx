@@ -58,12 +58,14 @@ function Sidebar() {
           <button
             onClick={() => setDropdownVisible(!isDropdownVisible)}
             className="md:hidden"
+            aria-label="Open menu"
+            aria-expanded={isDropdownVisible}
           >
             <i className="fa-solid fa-chevron-down"></i>
           </button>
 
           {isDropdownVisible && (
-            <div className="">
+            <nav>
               <ul className="flex flex-col gap-3">
                 <li>
                   {' '}
@@ -84,47 +86,49 @@ function Sidebar() {
                   </>
                 )}
               </ul>
-            </div>
+            </nav>
           )}
 
-          <ul className="hidden md:block mt-10 text-base">
-            <li
-              className={`pl-3 pr-3 p-1 ${
-                selected === 'messages'
-                  ? 'bg-gray-200 border-l-4 border-orange'
-                  : ''
-              }`}
-            >
-              <Link to="/">All messages</Link>
-            </li>
+          <nav>
+            <ul className="hidden md:block mt-10 text-base">
+              <li
+                className={`pl-3 pr-3 p-1 ${
+                  selected === 'messages'
+                    ? 'bg-gray-200 border-l-4 border-orange'
+                    : ''
+                }`}
+              >
+                <Link to="/">All messages</Link>
+              </li>
 
-            {currentUser && (
-              <>
-                <li
-                  className={`pl-3 pr-3 p-1 ${
-                    selected === 'members'
-                      ? 'bg-gray-200 border-l-4 border-orange'
-                      : ''
-                  }`}
-                >
-                  <Link to="/members">Members</Link>
-                </li>
+              {currentUser && (
+                <>
+                  <li
+                    className={`pl-3 pr-3 p-1 ${
+                      selected === 'members'
+                        ? 'bg-gray-200 border-l-4 border-orange'
+                        : ''
+                    }`}
+                  >
+                    <Link to="/members">Members</Link>
+                  </li>
 
-                <li
-                  className={`pl-3 pr-3 p-1 ${
-                    selected === 'logout'
-                      ? 'bg-gray-200 border-l-4 border-orange'
-                      : ''
-                  }`}
-                >
-                  <button onClick={handleLogout}>
-                    Logout{' '}
-                    <i className="fa-solid fa-right-from-bracket text-sm"></i>
-                  </button>
-                </li>
-              </>
-            )}
-          </ul>
+                  <li
+                    className={`pl-3 pr-3 p-1 ${
+                      selected === 'logout'
+                        ? 'bg-gray-200 border-l-4 border-orange'
+                        : ''
+                    }`}
+                  >
+                    <button onClick={handleLogout}>
+                      Logout{' '}
+                      <i className="fa-solid fa-right-from-bracket text-sm"></i>
+                    </button>
+                  </li>
+                </>
+              )}
+            </ul>
+          </nav>
         </>
       )}
     </div>

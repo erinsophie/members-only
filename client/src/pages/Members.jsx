@@ -86,14 +86,24 @@ function Members() {
             </div>
 
             {currentUser && currentUser.isAdmin && (
-              <input
-                type="checkbox"
-                checked={member.isAdmin}
-                onChange={(e) =>
-                  handleAdminToggle(member, e.target.checked ? 'admin' : 'user')
-                }
-                className="w-4"
-              />
+              <>
+                <label htmlFor={member._id} className="sr-only">
+                  Admin status
+                </label>
+
+                <input
+                  id={member._id}
+                  type="checkbox"
+                  checked={member.isAdmin}
+                  onChange={(e) =>
+                    handleAdminToggle(
+                      member,
+                      e.target.checked ? 'admin' : 'user',
+                    )
+                  }
+                  className="w-4"
+                />
+              </>
             )}
           </div>
         ))

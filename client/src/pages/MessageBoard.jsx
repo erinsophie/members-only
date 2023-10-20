@@ -101,16 +101,20 @@ function MessageBoard() {
     <div className="flex-1 flex flex-col gap-8">
       <h2 className="text-3xl">Messages</h2>
 
-      <select
-        onChange={(e) => setFilter(e.target.value)}
-        defaultValue={'allTime'}
-        className="border border-gray-400 w-32"
-      >
-        {' '}
-        <option value="allTime">All time</option>
-        <option value="thisWeek">This week</option>
-        <option value="today">Today</option>
-      </select>
+      <form className="flex flex-col gap-2">
+        <label htmlFor="selectDate">Sort messages by date posted:</label>
+        <select
+          id="selectDate"
+          onChange={(e) => setFilter(e.target.value)}
+          defaultValue="allTime"
+          className="border border-gray-400 w-32"
+        >
+          {' '}
+          <option value="allTime">All time</option>
+          <option value="thisWeek">This week</option>
+          <option value="today">Today</option>
+        </select>
+      </form>
 
       <div className="flex flex-col gap-3">
         <p>Total: {filteredMessages.length}</p>
@@ -125,7 +129,7 @@ function MessageBoard() {
             >
               <div>
                 <p className="text-darkBlue">{message.content}</p>
-                <p className="text-gray-400">
+                <p className="text-gray-600">
                   {currentUser && currentUser.isMember
                     ? message.username
                     : 'Username hidden'}
@@ -133,13 +137,16 @@ function MessageBoard() {
               </div>
 
               <div className="flex gap-3">
-                <p className="text-gray-400">
+                <p className="text-gray-600">
                   {currentUser && currentUser.isMember
                     ? format(parseISO(message.timestamp), 'dd/MM/yyyy HH:mm')
                     : 'Timestamp hidden'}
                 </p>
                 {currentUser && currentUser.isAdmin && (
-                  <button onClick={() => handleDelete(message._id)}>
+                  <button
+                    onClick={() => handleDelete(message._id)}
+                    aria-label="Delete message"
+                  >
                     <i className="fa-solid fa-trash-can"></i>
                   </button>
                 )}
@@ -150,12 +157,16 @@ function MessageBoard() {
 
         {currentUser && (
           <form onSubmit={handleSubmit} className="flex gap-3">
+            <label htmlFor="searchInput" className="sr-only">
+              Search Query
+            </label>
             <input
+              id="searchInput"
               type="text"
               value={newMessage}
               placeholder="message"
               onChange={(e) => setNewMessage(e.target.value)}
-              className="border border-gray-400 rounded-lg w-full"
+              className="border border-gray-600 rounded-lg w-full"
             ></input>
             <button
               type="submit"
